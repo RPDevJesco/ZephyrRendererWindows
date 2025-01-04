@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v9.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v9.0": {
+      "ZephyrRendererWindows/1.0.0": {
+        "runtime": {
+          "ZephyrRendererWindows.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "ZephyrRendererWindows/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

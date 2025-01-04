@@ -1,0 +1,14 @@
+C:\Users\jglov\RiderProjects\ZephyrRendererWindows\ZephyrRendererWindows\bin\Debug\net9.0\ZephyrRendererWindows.exe
+C:\Users\jglov\RiderProjects\ZephyrRendererWindows\ZephyrRendererWindows\bin\Debug\net9.0\ZephyrRendererWindows.deps.json
+C:\Users\jglov\RiderProjects\ZephyrRendererWindows\ZephyrRendererWindows\bin\Debug\net9.0\ZephyrRendererWindows.runtimeconfig.json
+C:\Users\jglov\RiderProjects\ZephyrRendererWindows\ZephyrRendererWindows\bin\Debug\net9.0\ZephyrRendererWindows.dll
+C:\Users\jglov\RiderProjects\ZephyrRendererWindows\ZephyrRendererWindows\bin\Debug\net9.0\ZephyrRendererWindows.pdb
+C:\Users\jglov\RiderProjects\ZephyrRendererWindows\ZephyrRendererWindows\obj\Debug\net9.0\ZephyrRendererWindows.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\jglov\RiderProjects\ZephyrRendererWindows\ZephyrRendererWindows\obj\Debug\net9.0\ZephyrRendererWindows.AssemblyInfoInputs.cache
+C:\Users\jglov\RiderProjects\ZephyrRendererWindows\ZephyrRendererWindows\obj\Debug\net9.0\ZephyrRendererWindows.AssemblyInfo.cs
+C:\Users\jglov\RiderProjects\ZephyrRendererWindows\ZephyrRendererWindows\obj\Debug\net9.0\ZephyrRendererWindows.csproj.CoreCompileInputs.cache
+C:\Users\jglov\RiderProjects\ZephyrRendererWindows\ZephyrRendererWindows\obj\Debug\net9.0\ZephyrRendererWindows.dll
+C:\Users\jglov\RiderProjects\ZephyrRendererWindows\ZephyrRendererWindows\obj\Debug\net9.0\refint\ZephyrRendererWindows.dll
+C:\Users\jglov\RiderProjects\ZephyrRendererWindows\ZephyrRendererWindows\obj\Debug\net9.0\ZephyrRendererWindows.pdb
+C:\Users\jglov\RiderProjects\ZephyrRendererWindows\ZephyrRendererWindows\obj\Debug\net9.0\ZephyrRendererWindows.genruntimeconfig.cache
+C:\Users\jglov\RiderProjects\ZephyrRendererWindows\ZephyrRendererWindows\obj\Debug\net9.0\ref\ZephyrRendererWindows.dll
