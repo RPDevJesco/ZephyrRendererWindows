@@ -1,5 +1,4 @@
-﻿using System.Drawing;
-using ZephyrRenderer.Platform;
+﻿using ZephyrRenderer.Platform;
 using ZephyrRenderer.UIElement;
 using ZephyrRendererWindows;
 using Color = ZephyrRenderer.Color;
