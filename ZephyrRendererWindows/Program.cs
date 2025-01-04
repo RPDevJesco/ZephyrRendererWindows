@@ -7,66 +7,32 @@ class Program
     static void Main()
     {
         // Create our main window
-        var window = new Window("Zephyr UI Demo", 800, 600);
+        var window = new Window("Zephyr UI Demo - Batched Rendering", 1200, 1200);
+        
+        // Create a test scene with different UI elements to demonstrate the batched rendering
+        CreateTestScene(window);
 
-        // Calculate center position for main panel
-        double mainPanelWidth = 700;
-        double mainPanelHeight = 500;
-        double mainPanelX = (800 - mainPanelWidth) / 2;
-        double mainPanelY = (600 - mainPanelHeight) / 2;
+        window.Run();
+    }
 
-        // Create main panel
+    static void CreateTestScene(Window window)
+    {
+        // Main panel covering most of the window
         var mainPanel = new Panel
         {
-            Bounds = new RECT { 
-                X = mainPanelX, 
-                Y = mainPanelY, 
-                Width = mainPanelWidth, 
-                Height = mainPanelHeight 
-            },
+            Bounds = new RECT(50, 50, 700, 500), // Margin from window edges
             BackgroundColor = new Color(30, 30, 40)
         };
         window.AddChild(mainPanel);
 
-        // Calculate animation panel size (60% of main panel width)
-        double animPanelWidth = mainPanelWidth * 0.6;
-        double animPanelHeight = mainPanelHeight * 0.8;
-        double animPanelX = 20; // Margin from left
-        double animPanelY = (mainPanelHeight - animPanelHeight) / 2; // Vertical center
+        // Add a row of buttons at the top
+        double buttonWidth = 120;
+        double buttonHeight = 40;
+        double buttonSpacing = 20;
+        double startX = 20;
+        double startY = 20;
 
-        // Add animation panel
-        var animationPanel = new AnimatedPanel
-        {
-            Bounds = new RECT { 
-                X = animPanelX, 
-                Y = animPanelY, 
-                Width = animPanelWidth, 
-                Height = animPanelHeight 
-            },
-            BackgroundColor = new Color(20, 20, 30)
-        };
-        mainPanel.AddChild(animationPanel);
-
-        // Calculate button panel size
-        double buttonPanelWidth = mainPanelWidth * 0.3;
-        double buttonPanelHeight = mainPanelHeight * 0.8;
-        double buttonPanelX = animPanelX + animPanelWidth + 40; // After animation panel + spacing
-        double buttonPanelY = (mainPanelHeight - buttonPanelHeight) / 2; // Vertical center
-
-        // Add button panel
-        var buttonPanel = new Panel
-        {
-            Bounds = new RECT { 
-                X = buttonPanelX, 
-                Y = buttonPanelY, 
-                Width = buttonPanelWidth, 
-                Height = buttonPanelHeight 
-            },
-            BackgroundColor = new Color(40, 40, 50)
-        };
-        mainPanel.AddChild(buttonPanel);
-
-        // Button properties
+        // Common button colors
         var buttonTextColor = new Color(240, 240, 240);
         var buttonBgColor = new Color(60, 60, 70);
         var buttonHoverColor = new Color(70, 70, 80);
@@ -74,23 +40,91 @@ class Program
         var buttonBorderColor = new Color(80, 80, 90);
         var buttonBorderHoverColor = new Color(100, 100, 110);
 
-        // Button dimensions
-        double buttonWidth = buttonPanelWidth * 0.8;
-        double buttonHeight = 40;
-        double buttonSpacing = 30;
-        double totalButtonsHeight = (buttonHeight * 3) + (buttonSpacing * 2);
-        double buttonStartY = (buttonPanelHeight - totalButtonsHeight) / 2;
-        double buttonX = (buttonPanelWidth - buttonWidth) / 2;
+        // Create several buttons to test batch rendering
+        for (int i = 0; i < 5; i++)
+        {
+            var button = new Button(
+                bounds: new RECT(
+                    startX + (buttonWidth + buttonSpacing) * i,
+                    startY,
+                    buttonWidth,
+                    buttonHeight
+                ),
+                text: $"Button {i + 1}",
+                textColor: buttonTextColor,
+                backgroundColor: buttonBgColor,
+                hoverColor: buttonHoverColor,
+                pressedColor: buttonPressedColor,
+                borderColor: buttonBorderColor,
+                borderHoverColor: buttonBorderHoverColor
+            );
 
-        // Create buttons
-        var resetButton = new Button(
-            bounds: new RECT { 
-                X = buttonX, 
-                Y = buttonStartY, 
-                Width = buttonWidth, 
-                Height = buttonHeight 
-            },
-            text: "RESET ANIMATION",
+            int buttonIndex = i; // Capture for lambda
+            button.OnClick += () => Console.WriteLine($"Button {buttonIndex + 1} clicked!");
+            mainPanel.AddChild(button);
+        }
+
+        // Add some nested panels to test clipping and bounds calculation
+        var nestedPanel1 = new Panel
+        {
+            Bounds = new RECT(20, 80, 320, 380),
+            BackgroundColor = new Color(40, 40, 50)
+        };
+        mainPanel.AddChild(nestedPanel1);
+
+        var nestedPanel2 = new Panel
+        {
+            Bounds = new RECT(360, 80, 320, 380),
+            BackgroundColor = new Color(40, 40, 50)
+        };
+        mainPanel.AddChild(nestedPanel2);
+
+        // Add some buttons to the nested panels
+        for (int i = 0; i < 3; i++)
+        {
+            var button1 = new Button(
+                bounds: new RECT(
+                    20,
+                    20 + (buttonHeight + buttonSpacing) * i,
+                    buttonWidth,
+                    buttonHeight
+                ),
+                text: $"Left {i + 1}",
+                textColor: buttonTextColor,
+                backgroundColor: buttonBgColor,
+                hoverColor: buttonHoverColor,
+                pressedColor: buttonPressedColor,
+                borderColor: buttonBorderColor,
+                borderHoverColor: buttonBorderHoverColor
+            );
+            int button1Index = i; // Capture for lambda
+            button1.OnClick += () => Console.WriteLine($"Left {button1Index + 1} clicked!");
+            nestedPanel1.AddChild(button1);
+
+            var button2 = new Button(
+                bounds: new RECT(
+                    20,
+                    20 + (buttonHeight + buttonSpacing) * i,
+                    buttonWidth,
+                    buttonHeight
+                ),
+                text: $"Right {i + 1}",
+                textColor: buttonTextColor,
+                backgroundColor: buttonBgColor,
+                hoverColor: buttonHoverColor,
+                pressedColor: buttonPressedColor,
+                borderColor: buttonBorderColor,
+                borderHoverColor: buttonBorderHoverColor
+            );
+            int button2Index = i; // Capture for lambda
+            button2.OnClick += () => Console.WriteLine($"Right {button2Index + 1} clicked!");
+            nestedPanel2.AddChild(button2);
+        }
+
+        // Add some buttons at the bottom of the main panel
+        var bottomButton1 = new Button(
+            bounds: new RECT(20, 480 - buttonHeight, 200, buttonHeight),
+            text: "Test Bounds",
             textColor: buttonTextColor,
             backgroundColor: buttonBgColor,
             hoverColor: buttonHoverColor,
@@ -98,17 +132,12 @@ class Program
             borderColor: buttonBorderColor,
             borderHoverColor: buttonBorderHoverColor
         );
-        resetButton.OnClick += () => animationPanel.ResetAnimation();
-        buttonPanel.AddChild(resetButton);
+        bottomButton1.OnClick += () => Console.WriteLine("Bounds Test!");
+        mainPanel.AddChild(bottomButton1);
 
-        var colorButton = new Button(
-            bounds: new RECT { 
-                X = buttonX, 
-                Y = buttonStartY + buttonHeight + buttonSpacing, 
-                Width = buttonWidth, 
-                Height = buttonHeight 
-            },
-            text: "CHANGE COLORS",
+        var bottomButton2 = new Button(
+            bounds: new RECT(480, 480 - buttonHeight, 200, buttonHeight),
+            text: "Test Rendering",
             textColor: buttonTextColor,
             backgroundColor: buttonBgColor,
             hoverColor: buttonHoverColor,
@@ -116,28 +145,8 @@ class Program
             borderColor: buttonBorderColor,
             borderHoverColor: buttonBorderHoverColor
         );
-        colorButton.OnClick += () => animationPanel.RandomizeColors();
-        buttonPanel.AddChild(colorButton);
-
-        var speedButton = new Button(
-            bounds: new RECT { 
-                X = buttonX, 
-                Y = buttonStartY + (buttonHeight + buttonSpacing) * 2, 
-                Width = buttonWidth, 
-                Height = buttonHeight 
-            },
-            text: "TOGGLE SPEED",
-            textColor: buttonTextColor,
-            backgroundColor: buttonBgColor,
-            hoverColor: buttonHoverColor,
-            pressedColor: buttonPressedColor,
-            borderColor: buttonBorderColor,
-            borderHoverColor: buttonBorderHoverColor
-        );
-        speedButton.OnClick += () => animationPanel.ToggleSpeed();
-        buttonPanel.AddChild(speedButton);
-
-        window.Run();
+        bottomButton2.OnClick += () => Console.WriteLine("Render Test!");
+        mainPanel.AddChild(bottomButton2);
     }
 }
 

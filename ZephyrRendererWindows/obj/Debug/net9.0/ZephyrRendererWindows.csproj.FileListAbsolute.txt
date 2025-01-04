@@ -12,3 +12,4 @@ C:\Users\jglov\RiderProjects\ZephyrRendererWindows\ZephyrRendererWindows\obj\Deb
 C:\Users\jglov\RiderProjects\ZephyrRendererWindows\ZephyrRendererWindows\obj\Debug\net9.0\ZephyrRendererWindows.pdb
 C:\Users\jglov\RiderProjects\ZephyrRendererWindows\ZephyrRendererWindows\obj\Debug\net9.0\ZephyrRendererWindows.genruntimeconfig.cache
 C:\Users\jglov\RiderProjects\ZephyrRendererWindows\ZephyrRendererWindows\obj\Debug\net9.0\ref\ZephyrRendererWindows.dll
+C:\Users\jglov\RiderProjects\ZephyrRendererWindows\ZephyrRendererWindows\obj\Debug\net9.0\ZephyrRendererWindows.sourcelink.json
