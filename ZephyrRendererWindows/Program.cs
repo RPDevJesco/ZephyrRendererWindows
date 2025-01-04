@@ -1,13 +1,15 @@
-﻿using ZephyrRenderer;
+﻿using System.Drawing;
 using ZephyrRenderer.Platform;
 using ZephyrRenderer.UIElement;
+using ZephyrRendererWindows;
+using Color = ZephyrRenderer.Color;
 
 class Program
 {
     static void Main()
     {
         // Create our main window
-        var window = new Window("Zephyr UI Demo - Batched Rendering", 1200, 1200);
+        var window = new Window("Zephyr UI Demo - Batched Rendering", 800, 600);
         
         // Create a test scene with different UI elements to demonstrate the batched rendering
         CreateTestScene(window);
@@ -79,36 +81,46 @@ class Program
         };
         mainPanel.AddChild(nestedPanel2);
 
+        // Add the animation panel
+        var animationPanel = new AnimatedPanel
+        {
+            Bounds = new RECT { X = 0, Y = 20, Width = 320, Height = 300 },
+            BackgroundColor = new Color(20, 20, 30)
+        };
+        nestedPanel2.AddChild(animationPanel);
+        
         // Add some buttons to the nested panels
         for (int i = 0; i < 3; i++)
         {
-            var button1 = new Button(
-                bounds: new RECT(
-                    20,
-                    20 + (buttonHeight + buttonSpacing) * i,
-                    buttonWidth,
-                    buttonHeight
-                ),
-                text: $"Left {i + 1}",
-                textColor: buttonTextColor,
-                backgroundColor: buttonBgColor,
-                hoverColor: buttonHoverColor,
-                pressedColor: buttonPressedColor,
-                borderColor: buttonBorderColor,
-                borderHoverColor: buttonBorderHoverColor
-            );
-            int button1Index = i; // Capture for lambda
-            button1.OnClick += () => Console.WriteLine($"Left {button1Index + 1} clicked!");
-            nestedPanel1.AddChild(button1);
+            string buttonText;
+            Action buttonAction;
 
-            var button2 = new Button(
+            switch (i)
+            {
+                case 0:
+                    buttonText = "Reset Animation";
+                    buttonAction = () => animationPanel.ResetAnimation();
+                    break;
+                case 1:
+                    buttonText = "Randomize Colors";
+                    buttonAction = () => animationPanel.RandomizeColors();
+                    break;
+                case 2:
+                    buttonText = "Toggle Speed";
+                    buttonAction = () => animationPanel.ToggleSpeed();
+                    break;
+                default:
+                    throw new InvalidOperationException("Invalid button index");
+            }
+
+            var button = new Button(
                 bounds: new RECT(
                     20,
                     20 + (buttonHeight + buttonSpacing) * i,
                     buttonWidth,
                     buttonHeight
                 ),
-                text: $"Right {i + 1}",
+                text: buttonText,
                 textColor: buttonTextColor,
                 backgroundColor: buttonBgColor,
                 hoverColor: buttonHoverColor,
@@ -116,10 +128,11 @@ class Program
                 borderColor: buttonBorderColor,
                 borderHoverColor: buttonBorderHoverColor
             );
-            int button2Index = i; // Capture for lambda
-            button2.OnClick += () => Console.WriteLine($"Right {button2Index + 1} clicked!");
-            nestedPanel2.AddChild(button2);
+
+            button.OnClick += buttonAction;
+            nestedPanel1.AddChild(button);
         }
+
 
         // Add some buttons at the bottom of the main panel
         var bottomButton1 = new Button(
@@ -151,82 +164,78 @@ class Program
 }
 
 public class AnimatedPanel : Panel
+{
+    private double xPos = 0;
+    private int xDirection = 1;
+    private Color ballColor = new Color(255, 165, 0);
+    private Color lineColor = new Color(0, 255, 0);
+    private int speed = 2;
+
+    public override void CollectRenderCommands(RenderQueue queue)
     {
-        private double xPos = 0;
-        private int xDirection = 1;
-        private Color ballColor = new Color(255, 165, 0);
-        private Color lineColor = new Color(0, 255, 0);
-        private int speed = 2;
+        // Collect panel's base commands
+        base.CollectRenderCommands(queue);
 
-        protected override void OnDraw(Framebuffer framebuffer)
+        var bounds = GetAbsoluteBounds();
+
+        // Add border commands
+        queue.Enqueue(new DrawRectCommand(1, bounds, new Color(100, 100, 100)));
+
+        // Add cross pattern commands
+        queue.Enqueue(new DrawLineCommand(2,
+            new POINT(bounds.X, bounds.Y),
+            new POINT(bounds.X + bounds.Width, bounds.Y + bounds.Height),
+            lineColor));
+
+        queue.Enqueue(new DrawLineCommand(2,
+            new POINT(bounds.X + bounds.Width, bounds.Y),
+            new POINT(bounds.X, bounds.Y + bounds.Height),
+            lineColor));
+
+        // Add bouncing ball render command
+        double ballSize = 40;
+        double ballY = bounds.Y + (bounds.Height - ballSize) / 2;
+        queue.Enqueue(new FillRectCommand(3,
+            new RECT(bounds.X + (int)xPos, (int)ballY, (int)ballSize, (int)ballSize),
+            ballColor));
+
+        // Update ball position for the next frame
+        UpdateBallPosition(bounds.Width, ballSize);
+    }
+
+    private void UpdateBallPosition(double panelWidth, double ballSize)
+    {
+        xPos += speed * xDirection;
+        if (xPos >= panelWidth - ballSize || xPos <= 0)
         {
-            var bounds = GetAbsoluteBounds();
-            
-            // Draw panel background
-            base.OnDraw(framebuffer);
-
-            // Draw border
-            framebuffer.DrawRect(
-                bounds.X, 
-                bounds.Y, 
-                bounds.Width, 
-                bounds.Height, 
-                new Color(100, 100, 100)
-            );
-
-            // Draw cross pattern
-            framebuffer.DrawLine(
-                bounds.X, 
-                bounds.Y, 
-                bounds.X + bounds.Width, 
-                bounds.Y + bounds.Height, 
-                lineColor
-            );
-            framebuffer.DrawLine(
-                bounds.X + bounds.Width, 
-                bounds.Y, 
-                bounds.X, 
-                bounds.Y + bounds.Height, 
-                lineColor
-            );
-
-            // Draw bouncing ball at vertical center
-            double ballSize = 40;
-            double ballY = bounds.Y + (bounds.Height - ballSize) / 2;
-            framebuffer.FillRect(bounds.X + xPos, ballY, ballSize, ballSize, ballColor);
-
-            // Update ball position
-            xPos += speed * xDirection;
-            if (xPos >= bounds.Width - ballSize || xPos <= 0)
-            {
-                xDirection *= -1;
-            }
-        }
-
-        public void ResetAnimation()
-        {
-            xPos = 0;
-            xDirection = 1;
-            speed = 2;
-        }
-
-        public void RandomizeColors()
-        {
-            ballColor = new Color(
-                (byte)System.Random.Shared.Next(128, 255),
-                (byte)System.Random.Shared.Next(128, 255),
-                (byte)System.Random.Shared.Next(128, 255)
-            );
-
-            lineColor = new Color(
-                (byte)System.Random.Shared.Next(128, 255),
-                (byte)System.Random.Shared.Next(128, 255),
-                (byte)System.Random.Shared.Next(128, 255)
-            );
-        }
-
-        public void ToggleSpeed()
-        {
-            speed = speed == 2 ? 4 : 2;
+            xDirection *= -1;
         }
     }
+
+    public void ResetAnimation()
+    {
+        xPos = 0;
+        xDirection = 1;
+        speed = 2;
+    }
+
+    public void RandomizeColors()
+    {
+        ballColor = new Color(
+            (byte)System.Random.Shared.Next(128, 255),
+            (byte)System.Random.Shared.Next(128, 255),
+            (byte)System.Random.Shared.Next(128, 255)
+        );
+
+        lineColor = new Color(
+            (byte)System.Random.Shared.Next(128, 255),
+            (byte)System.Random.Shared.Next(128, 255),
+            (byte)System.Random.Shared.Next(128, 255)
+        );
+    }
+
+    public void ToggleSpeed()
+    {
+        speed = speed == 2 ? 4 : 2;
+    }
+}
