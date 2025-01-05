@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ZephyrRendererWindows")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6cc7fdc38504a48e34d25975f369f41a206ffaee")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a4820483699a5674cf7c7f1fe108d22dfdac9afe")]
 [assembly: System.Reflection.AssemblyProductAttribute("ZephyrRendererWindows")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ZephyrRendererWindows")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

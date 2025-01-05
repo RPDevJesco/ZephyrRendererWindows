@@ -3,28 +3,24 @@
   "WorkspaceRootPath": "C:\\Users\\jglov\\RiderProjects\\ZephyrRendererWindows\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{FC87CD2B-F4FF-43AC-ABD2-919B7AA3717E}|ZephyrRendererWindows\\ZephyrRendererWindows.csproj|c:\\users\\jglov\\riderprojects\\zephyrrendererwindows\\zephyrrendererwindows\\debug.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FC87CD2B-F4FF-43AC-ABD2-919B7AA3717E}|ZephyrRendererWindows\\ZephyrRendererWindows.csproj|solutionrelative:zephyrrendererwindows\\debug.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{FC87CD2B-F4FF-43AC-ABD2-919B7AA3717E}|ZephyrRendererWindows\\ZephyrRendererWindows.csproj|c:\\users\\jglov\\riderprojects\\zephyrrendererwindows\\zephyrrendererwindows\\ui elements\\window.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FC87CD2B-F4FF-43AC-ABD2-919B7AA3717E}|ZephyrRendererWindows\\ZephyrRendererWindows.csproj|solutionrelative:zephyrrendererwindows\\ui elements\\window.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FC87CD2B-F4FF-43AC-ABD2-919B7AA3717E}|ZephyrRendererWindows\\ZephyrRendererWindows.csproj|c:\\users\\jglov\\riderprojects\\zephyrrendererwindows\\zephyrrendererwindows\\windowsrenderer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FC87CD2B-F4FF-43AC-ABD2-919B7AA3717E}|ZephyrRendererWindows\\ZephyrRendererWindows.csproj|solutionrelative:zephyrrendererwindows\\windowsrenderer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{FC87CD2B-F4FF-43AC-ABD2-919B7AA3717E}|ZephyrRendererWindows\\ZephyrRendererWindows.csproj|c:\\users\\jglov\\riderprojects\\zephyrrendererwindows\\zephyrrendererwindows\\core\\windowsrenderer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FC87CD2B-F4FF-43AC-ABD2-919B7AA3717E}|ZephyrRendererWindows\\ZephyrRendererWindows.csproj|solutionrelative:zephyrrendererwindows\\core\\windowsrenderer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FC87CD2B-F4FF-43AC-ABD2-919B7AA3717E}|ZephyrRendererWindows\\ZephyrRendererWindows.csproj|c:\\users\\jglov\\riderprojects\\zephyrrendererwindows\\zephyrrendererwindows\\win32.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FC87CD2B-F4FF-43AC-ABD2-919B7AA3717E}|ZephyrRendererWindows\\ZephyrRendererWindows.csproj|solutionrelative:zephyrrendererwindows\\win32.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{FC87CD2B-F4FF-43AC-ABD2-919B7AA3717E}|ZephyrRendererWindows\\ZephyrRendererWindows.csproj|c:\\users\\jglov\\riderprojects\\zephyrrendererwindows\\zephyrrendererwindows\\core\\irenderer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FC87CD2B-F4FF-43AC-ABD2-919B7AA3717E}|ZephyrRendererWindows\\ZephyrRendererWindows.csproj|solutionrelative:zephyrrendererwindows\\core\\irenderer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FC87CD2B-F4FF-43AC-ABD2-919B7AA3717E}|ZephyrRendererWindows\\ZephyrRendererWindows.csproj|c:\\users\\jglov\\riderprojects\\zephyrrendererwindows\\zephyrrendererwindows\\button.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FC87CD2B-F4FF-43AC-ABD2-919B7AA3717E}|ZephyrRendererWindows\\ZephyrRendererWindows.csproj|solutionrelative:zephyrrendererwindows\\button.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{FC87CD2B-F4FF-43AC-ABD2-919B7AA3717E}|ZephyrRendererWindows\\ZephyrRendererWindows.csproj|c:\\users\\jglov\\riderprojects\\zephyrrendererwindows\\zephyrrendererwindows\\commands\\drawlinecommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FC87CD2B-F4FF-43AC-ABD2-919B7AA3717E}|ZephyrRendererWindows\\ZephyrRendererWindows.csproj|solutionrelative:zephyrrendererwindows\\commands\\drawlinecommand.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{FC87CD2B-F4FF-43AC-ABD2-919B7AA3717E}|ZephyrRendererWindows\\ZephyrRendererWindows.csproj|c:\\users\\jglov\\riderprojects\\zephyrrendererwindows\\zephyrrendererwindows\\window.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FC87CD2B-F4FF-43AC-ABD2-919B7AA3717E}|ZephyrRendererWindows\\ZephyrRendererWindows.csproj|solutionrelative:zephyrrendererwindows\\window.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{FC87CD2B-F4FF-43AC-ABD2-919B7AA3717E}|ZephyrRendererWindows\\ZephyrRendererWindows.csproj|c:\\users\\jglov\\riderprojects\\zephyrrendererwindows\\zephyrrendererwindows\\irenderer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{FC87CD2B-F4FF-43AC-ABD2-919B7AA3717E}|ZephyrRendererWindows\\ZephyrRendererWindows.csproj|solutionrelative:zephyrrendererwindows\\irenderer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{FC87CD2B-F4FF-43AC-ABD2-919B7AA3717E}|ZephyrRendererWindows\\ZephyrRendererWindows.csproj|c:\\users\\jglov\\riderprojects\\zephyrrendererwindows\\zephyrrendererwindows\\core\\color.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FC87CD2B-F4FF-43AC-ABD2-919B7AA3717E}|ZephyrRendererWindows\\ZephyrRendererWindows.csproj|solutionrelative:zephyrrendererwindows\\core\\color.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -55,79 +51,66 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Debug.cs",
-              "DocumentMoniker": "C:\\Users\\jglov\\RiderProjects\\ZephyrRendererWindows\\ZephyrRendererWindows\\Debug.cs",
-              "RelativeDocumentMoniker": "ZephyrRendererWindows\\Debug.cs",
-              "ToolTip": "C:\\Users\\jglov\\RiderProjects\\ZephyrRendererWindows\\ZephyrRendererWindows\\Debug.cs",
-              "RelativeToolTip": "ZephyrRendererWindows\\Debug.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-03T20:27:17.208Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "IRenderer.cs",
-              "DocumentMoniker": "C:\\Users\\jglov\\RiderProjects\\ZephyrRendererWindows\\ZephyrRendererWindows\\IRenderer.cs",
-              "RelativeDocumentMoniker": "ZephyrRendererWindows\\IRenderer.cs",
-              "ToolTip": "C:\\Users\\jglov\\RiderProjects\\ZephyrRendererWindows\\ZephyrRendererWindows\\IRenderer.cs",
-              "RelativeToolTip": "ZephyrRendererWindows\\IRenderer.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAA6AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-03T18:06:19.943Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
               "Title": "Window.cs",
-              "DocumentMoniker": "C:\\Users\\jglov\\RiderProjects\\ZephyrRendererWindows\\ZephyrRendererWindows\\Window.cs",
-              "RelativeDocumentMoniker": "ZephyrRendererWindows\\Window.cs",
-              "ToolTip": "C:\\Users\\jglov\\RiderProjects\\ZephyrRendererWindows\\ZephyrRendererWindows\\Window.cs",
-              "RelativeToolTip": "ZephyrRendererWindows\\Window.cs",
-              "ViewState": "AgIAAD8AAAAAAAAAAAApwBkAAAAtAAAAAAAAAA==",
+              "DocumentMoniker": "C:\\Users\\jglov\\RiderProjects\\ZephyrRendererWindows\\ZephyrRendererWindows\\UI Elements\\Window.cs",
+              "RelativeDocumentMoniker": "ZephyrRendererWindows\\UI Elements\\Window.cs",
+              "ToolTip": "C:\\Users\\jglov\\RiderProjects\\ZephyrRendererWindows\\ZephyrRendererWindows\\UI Elements\\Window.cs",
+              "RelativeToolTip": "ZephyrRendererWindows\\UI Elements\\Window.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAiwCsAAAAaAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-03T18:04:49.51Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Button.cs",
-              "DocumentMoniker": "C:\\Users\\jglov\\RiderProjects\\ZephyrRendererWindows\\ZephyrRendererWindows\\Button.cs",
-              "RelativeDocumentMoniker": "ZephyrRendererWindows\\Button.cs",
-              "ToolTip": "C:\\Users\\jglov\\RiderProjects\\ZephyrRendererWindows\\ZephyrRendererWindows\\Button.cs",
-              "RelativeToolTip": "ZephyrRendererWindows\\Button.cs",
-              "ViewState": "AgIAAIAAAAAAAAAAAAAhwDsAAAAnAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-03T18:04:19.68Z",
+              "WhenOpened": "2025-01-05T04:39:45.466Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
               "Title": "WindowsRenderer.cs",
-              "DocumentMoniker": "C:\\Users\\jglov\\RiderProjects\\ZephyrRendererWindows\\ZephyrRendererWindows\\WindowsRenderer.cs",
-              "RelativeDocumentMoniker": "ZephyrRendererWindows\\WindowsRenderer.cs",
-              "ToolTip": "C:\\Users\\jglov\\RiderProjects\\ZephyrRendererWindows\\ZephyrRendererWindows\\WindowsRenderer.cs",
-              "RelativeToolTip": "ZephyrRendererWindows\\WindowsRenderer.cs",
-              "ViewState": "AgIAAJQAAAAAAAAAAAAiwKUAAAAnAAAAAAAAAA==",
+              "DocumentMoniker": "C:\\Users\\jglov\\RiderProjects\\ZephyrRendererWindows\\ZephyrRendererWindows\\Core\\WindowsRenderer.cs",
+              "RelativeDocumentMoniker": "ZephyrRendererWindows\\Core\\WindowsRenderer.cs",
+              "ToolTip": "C:\\Users\\jglov\\RiderProjects\\ZephyrRendererWindows\\ZephyrRendererWindows\\Core\\WindowsRenderer.cs",
+              "RelativeToolTip": "ZephyrRendererWindows\\Core\\WindowsRenderer.cs",
+              "ViewState": "AgIAABAAAAAAAAAAAAAzwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-02T03:30:37.902Z",
+              "WhenOpened": "2025-01-05T04:39:32.046Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "Win32.cs",
-              "DocumentMoniker": "C:\\Users\\jglov\\RiderProjects\\ZephyrRendererWindows\\ZephyrRendererWindows\\Win32.cs",
-              "RelativeDocumentMoniker": "ZephyrRendererWindows\\Win32.cs",
-              "ToolTip": "C:\\Users\\jglov\\RiderProjects\\ZephyrRendererWindows\\ZephyrRendererWindows\\Win32.cs",
-              "RelativeToolTip": "ZephyrRendererWindows\\Win32.cs",
-              "ViewState": "AgIAAFEAAAAAAAAAAAAkwG0AAAABAAAAAAAAAA==",
+              "Title": "IRenderer.cs",
+              "DocumentMoniker": "C:\\Users\\jglov\\RiderProjects\\ZephyrRendererWindows\\ZephyrRendererWindows\\Core\\IRenderer.cs",
+              "RelativeDocumentMoniker": "ZephyrRendererWindows\\Core\\IRenderer.cs",
+              "ToolTip": "C:\\Users\\jglov\\RiderProjects\\ZephyrRendererWindows\\ZephyrRendererWindows\\Core\\IRenderer.cs",
+              "RelativeToolTip": "ZephyrRendererWindows\\Core\\IRenderer.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-01-02T03:30:17.126Z",
+              "WhenOpened": "2025-01-05T04:39:24.775Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "DrawLineCommand.cs",
+              "DocumentMoniker": "C:\\Users\\jglov\\RiderProjects\\ZephyrRendererWindows\\ZephyrRendererWindows\\Commands\\DrawLineCommand.cs",
+              "RelativeDocumentMoniker": "ZephyrRendererWindows\\Commands\\DrawLineCommand.cs",
+              "ToolTip": "C:\\Users\\jglov\\RiderProjects\\ZephyrRendererWindows\\ZephyrRendererWindows\\Commands\\DrawLineCommand.cs",
+              "RelativeToolTip": "ZephyrRendererWindows\\Commands\\DrawLineCommand.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-05T04:36:41.092Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Color.cs",
+              "DocumentMoniker": "C:\\Users\\jglov\\RiderProjects\\ZephyrRendererWindows\\ZephyrRendererWindows\\Core\\Color.cs",
+              "RelativeDocumentMoniker": "ZephyrRendererWindows\\Core\\Color.cs",
+              "ToolTip": "C:\\Users\\jglov\\RiderProjects\\ZephyrRendererWindows\\ZephyrRendererWindows\\Core\\Color.cs",
+              "RelativeToolTip": "ZephyrRendererWindows\\Core\\Color.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-01-05T04:32:44.048Z",
               "EditorCaption": ""
             }
           ]

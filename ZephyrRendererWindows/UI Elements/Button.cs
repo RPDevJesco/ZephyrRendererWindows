@@ -1,5 +1,6 @@
 using ZephyrRenderer.Platform;
 using ZephyrRenderer.UI;
+using ZephyrRenderer.UI.Layout;
 using ZephyrRendererWindows;
 
 namespace ZephyrRenderer.UIElement
@@ -22,12 +23,15 @@ namespace ZephyrRenderer.UIElement
         private bool isHovered;
         private bool isPressed;
         private bool wasPressed;
+        private RECT localBounds;
 
         protected override bool IsInteractive => true;
 
-        public Button(RECT bounds, string text, Color textColor, Color backgroundColor, 
+        public Button(RECT bounds, string text, Color textColor, Color backgroundColor,
             Color hoverColor, Color pressedColor, Color borderColor, Color borderHoverColor)
         {
+            Console.WriteLine(
+                $"Creating button '{text}' with bounds {bounds.X},{bounds.Y} {bounds.Width}x{bounds.Height}");
             Bounds = bounds;
             Text = text;
             TextColor = textColor;
@@ -38,30 +42,55 @@ namespace ZephyrRenderer.UIElement
             BorderHoverColor = borderHoverColor;
         }
 
+        protected override Size MeasureOverride(Size availableSize)
+        {
+            // Return minimum size for the button
+            return new Size(
+                Math.Min(availableSize.Width, Math.Max(35, LayoutProperties.Width.Value)),
+                Math.Min(availableSize.Height, Math.Max(35, LayoutProperties.Height.Value))
+            );
+        }
+
+        protected override void ArrangeOverride(RECT finalRect)
+        {
+            Console.WriteLine(
+                $"Button '{Text}' arranging with rect {finalRect.X},{finalRect.Y} {finalRect.Width}x{finalRect.Height}");
+            localBounds = finalRect;
+            base.ArrangeOverride(finalRect);
+        }
+
+        protected override void OnDraw(Framebuffer framebuffer)
+        {
+            // Handled by other systems.
+        }
+
         public override void CollectRenderCommands(RenderQueue queue)
         {
             if (!IsVisible) return;
 
             var bounds = GetAbsoluteBounds();
+            Console.WriteLine(
+                $"Button '{Text}' collecting render commands at {bounds.X},{bounds.Y} {bounds.Width}x{bounds.Height}");
+            Console.WriteLine(
+                $"Button '{Text}' local bounds: {localBounds.X},{localBounds.Y} {localBounds.Width}x{localBounds.Height}");
+
             if (bounds.Width <= 0 || bounds.Height <= 0) return;
 
             // Get current background color based on state
-            var backgroundColor = isPressed ? PressedColor : 
-                isHovered ? HoverColor : 
+            var backgroundColor = isPressed ? PressedColor :
+                isHovered ? HoverColor :
                 BackgroundColor;
 
             // Add the background fill command
-            queue.Enqueue(new FillRectCommand(1, bounds, backgroundColor));
+            queue.Enqueue(new FillRectCommand(100, bounds, backgroundColor));
 
             // Add the border command
             var borderColor = isHovered ? BorderHoverColor : BorderColor;
-            // We need to implement DrawRectCommand for borders
-            queue.Enqueue(new DrawRectCommand(2, bounds, borderColor));
+            queue.Enqueue(new DrawRectCommand(101, bounds, borderColor));
 
             // Add the text command if we have text
             if (!string.IsNullOrEmpty(Text))
             {
-                // We need to implement DrawTextCommand for text
                 double textWidth = FontRenderer.MeasureText(Text);
                 double textX = bounds.X + (bounds.Width - textWidth) / 2;
                 double textY = bounds.Y + (bounds.Height - 7) / 2;
@@ -72,83 +101,50 @@ namespace ZephyrRenderer.UIElement
                     textY += 1;
                 }
 
-                queue.Enqueue(new DrawTextCommand(3, new RECT(textX, textY, textWidth, 7), 
+                queue.Enqueue(new DrawTextCommand(102, new RECT(textX, textY, textWidth, 7),
                     Text, IsEnabled ? TextColor : new Color(120, 120, 120)));
             }
-        }
 
-        protected override void OnDraw(Framebuffer framebuffer)
-        {
-            
-        }
-
-        private Color GetCurrentBackgroundColor()
-        {
-            if (!IsEnabled) return new Color(150, 150, 150);
-            return isPressed ? PressedColor : 
-                   isHovered ? HoverColor : 
-                   BackgroundColor;
-        }
-
-        private void DrawButtonBackground(Framebuffer framebuffer, RECT bounds, Color backgroundColor)
-        {
-            // Fill the button background
-            framebuffer.FillRect(bounds.X, bounds.Y, bounds.Width, bounds.Height, backgroundColor);
-
-            // Draw 3D effect edges
-            var lightEdgeColor = new Color(220, 220, 220);
-            var darkEdgeColor = new Color(100, 100, 100);
-
-            if (isPressed)
+            // Let children add their render commands
+            foreach (var child in Children)
             {
-                // Pressed state - inset effect
-                DrawEdge(framebuffer, bounds, darkEdgeColor, lightEdgeColor);
-            }
-            else
-            {
-                // Normal/Hover state - raised effect
-                DrawEdge(framebuffer, bounds, lightEdgeColor, darkEdgeColor);
+                if (child.IsVisible)
+                {
+                    child.CollectRenderCommands(queue);
+                }
             }
         }
 
-        private void DrawEdge(Framebuffer framebuffer, RECT bounds, Color topLeftColor, Color bottomRightColor)
+        public override bool HandleMouseEvent(double x, double y, bool isDown)
         {
-            // Top and left edges
-            framebuffer.DrawLine(bounds.X, bounds.Y, 
-                bounds.X + bounds.Width - 1, bounds.Y, topLeftColor);
-            framebuffer.DrawLine(bounds.X, bounds.Y, 
-                bounds.X, bounds.Y + bounds.Height - 1, topLeftColor);
+            if (!IsEnabled) return false;
 
-            // Bottom and right edges
-            framebuffer.DrawLine(bounds.X, bounds.Y + bounds.Height - 1,
-                bounds.X + bounds.Width - 1, bounds.Y + bounds.Height - 1, bottomRightColor);
-            framebuffer.DrawLine(bounds.X + bounds.Width - 1, bounds.Y,
-                bounds.X + bounds.Width - 1, bounds.Y + bounds.Height - 1, bottomRightColor);
-        }
+            // Do hit testing in absolute coordinates
+            var bounds = GetAbsoluteBounds();
+            var isInBounds = x >= bounds.X &&
+                             x < bounds.X + bounds.Width &&
+                             y >= bounds.Y &&
+                             y < bounds.Y + bounds.Height;
 
-        private void DrawCenteredText(Framebuffer framebuffer, RECT bounds)
-        {
-            double textWidth = FontRenderer.MeasureText(Text);
-            double textX = bounds.X + (bounds.Width - textWidth) / 2;
-            double textY = bounds.Y + (bounds.Height - 7) / 2; // 7 is the font height
-
-            // Offset text when pressed for visual feedback
-            if (isPressed)
+            if (!isInBounds)
             {
-                textX += 1;
-                textY += 1;
+                // Handle mouse leave if we were previously hovered
+                if (isHovered)
+                {
+                    isHovered = false;
+                    isPressed = false;
+                    wasPressed = false;
+                    OnMouseLeave?.Invoke();
+                }
+
+                return false;
             }
 
-            FontRenderer.DrawText(
-                framebuffer,
-                Text,
-                (int)textX,
-                (int)textY,
-                IsEnabled ? TextColor : new Color(120, 120, 120)
-            );
+            // Convert to local coordinates and handle the event
+            return OnMouseEvent(x - bounds.X, y - bounds.Y, isDown);
         }
 
-        public override bool OnMouseEvent(double x, double y, bool isDown)
+        protected override bool OnMouseEvent(double x, double y, bool isDown)
         {
             // Handle hover state
             if (!isHovered)
@@ -173,33 +169,6 @@ namespace ZephyrRenderer.UIElement
             return true; // Button always handles its events
         }
 
-        public override bool HandleMouseEvent(double x, double y, bool isDown)
-        {
-            if (!IsEnabled) return false;
-
-            // Do hit testing in absolute coordinates
-            var bounds = GetAbsoluteBounds();
-            var isInBounds = x >= bounds.X && 
-                             x < bounds.X + bounds.Width && 
-                             y >= bounds.Y && 
-                             y < bounds.Y + bounds.Height;
-
-            if (!isInBounds)
-            {
-                // Handle mouse leave if we were previously hovered
-                if (isHovered)
-                {
-                    isHovered = false;
-                    isPressed = false;
-                    OnMouseLeave?.Invoke();
-                }
-                return false;
-            }
-
-            // Convert to local coordinates and handle the event
-            return OnMouseEvent(x - bounds.X, y - bounds.Y, isDown);
-        }
-
         public void SetEnabled(bool enabled)
         {
             if (!enabled)
@@ -207,6 +176,7 @@ namespace ZephyrRenderer.UIElement
                 isHovered = false;
                 isPressed = false;
             }
+
             IsEnabled = enabled;
         }
     }

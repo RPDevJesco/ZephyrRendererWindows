@@ -19,6 +19,7 @@ namespace ZephyrRenderer.Renderer
         // Mouse event handlers
         public event Action<int, int>? OnMouseMove;
         public event Action<int, int, bool>? OnMouseButton;
+        public event Action<int, int>? OnResize;
 
         private delegate IntPtr WndProcDelegate(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam);
 
@@ -139,6 +140,13 @@ namespace ZephyrRenderer.Renderer
         {
             switch (msg)
             {
+                case 0x0005: // WM_SIZE
+                {
+                    int width = (short)(lParam.ToInt32() & 0xFFFF);
+                    int height = (short)((lParam.ToInt32() >> 16) & 0xFFFF);
+                    OnResize?.Invoke(width, height);
+                    return IntPtr.Zero;
+                }
                 case WM_MOUSEMOVE:
                     {
                         int x = (short)(lParam.ToInt32() & 0xFFFF);

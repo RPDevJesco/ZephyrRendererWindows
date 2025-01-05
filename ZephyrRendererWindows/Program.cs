@@ -1,4 +1,7 @@
 ﻿using ZephyrRenderer.Platform;
+using ZephyrRenderer.UI;
+using ZephyrRenderer.UI.Grid;
+using ZephyrRenderer.UI.Layout;
 using ZephyrRenderer.UIElement;
 using ZephyrRendererWindows;
 using Color = ZephyrRenderer.Color;
@@ -8,30 +11,49 @@ class Program
     static void Main()
     {
         // Create our main window
-        var window = new Window("Zephyr UI Demo - Batched Rendering", 800, 600);
+        var window = new Window("Zephyr UI Demo - Grid & Stack Layout", 800, 600);
         
-        // Create a test scene with different UI elements to demonstrate the batched rendering
         CreateTestScene(window);
-
         window.Run();
     }
 
     static void CreateTestScene(Window window)
     {
-        // Main panel covering most of the window
+        double windowWidth = window.Bounds.Width;
+        double windowHeight = window.Bounds.Height;
+        double margin = 10;
+
+        // Main panel
         var mainPanel = new Panel
         {
-            Bounds = new RECT(50, 50, 700, 500), // Margin from window edges
             BackgroundColor = new Color(30, 30, 40)
         };
+        mainPanel.LayoutProperties.Width = LayoutSize.Star(1);
+        mainPanel.LayoutProperties.Height = LayoutSize.Star(1);
+        mainPanel.LayoutProperties.Margin = new Thickness(margin);
         window.AddChild(mainPanel);
 
-        // Add a row of buttons at the top
-        double buttonWidth = 120;
-        double buttonHeight = 40;
-        double buttonSpacing = 20;
-        double startX = 20;
-        double startY = 20;
+        // Top panel with grid layout
+        var topPanel = new Panel
+        {
+            BackgroundColor = new Color(40, 40, 50)
+        };
+        topPanel.SetGridLayout();
+        topPanel.LayoutProperties.Width = LayoutSize.Star(1);
+        topPanel.LayoutProperties.Height = LayoutSize.Fixed(40);
+        mainPanel.AddChild(topPanel);
+        
+        // Configure top panel grid
+        var gridLayout = topPanel.LayoutManager as GridLayout;
+        if (gridLayout != null)
+        {
+            gridLayout.ColumnSpacing = 10;
+            for (int i = 0; i < 5; i++)
+            {
+                gridLayout.AddColumnDefinition(new ColumnDefinition { Width = GridLength.Star(1) });
+            }
+            gridLayout.AddRowDefinition(new RowDefinition { Height = GridLength.Fixed(35) });
+        }
 
         // Common button colors
         var buttonTextColor = new Color(240, 240, 240);
@@ -41,85 +63,83 @@ class Program
         var buttonBorderColor = new Color(80, 80, 90);
         var buttonBorderHoverColor = new Color(100, 100, 110);
 
-        // Create several buttons to test batch rendering
-        for (int i = 0; i < 5; i++)
+        // Add buttons to grid
+        string[] buttonTexts = { "Button 1", "Button 2", "Button 3", "Button 4", "Button 5" };
+        for (int i = 0; i < buttonTexts.Length; i++)
         {
             var button = new Button(
-                bounds: new RECT(
-                    startX + (buttonWidth + buttonSpacing) * i,
-                    startY,
-                    buttonWidth,
-                    buttonHeight
-                ),
-                text: $"Button {i + 1}",
-                textColor: buttonTextColor,
-                backgroundColor: buttonBgColor,
-                hoverColor: buttonHoverColor,
-                pressedColor: buttonPressedColor,
-                borderColor: buttonBorderColor,
-                borderHoverColor: buttonBorderHoverColor
+                new RECT(0, 0, 0, 35),
+                buttonTexts[i],
+                new Color(240, 240, 240),
+                new Color(60, 60, 70),
+                new Color(70, 70, 80),
+                new Color(50, 50, 60),
+                new Color(80, 80, 90),
+                new Color(100, 100, 110)
             );
-
-            int buttonIndex = i; // Capture for lambda
-            button.OnClick += () => Console.WriteLine($"Button {buttonIndex + 1} clicked!");
-            mainPanel.AddChild(button);
+            button.GridColumn = i;
+            button.GridRow = 0;
+            button.LayoutProperties.HorizontalAlignment = HorizontalAlignment.Stretch;
+            topPanel.AddChild(button);
         }
 
-        // Add some nested panels to test clipping and bounds calculation
-        var nestedPanel1 = new Panel
+        double sideWidth = ((windowWidth - margin * 3) / 2);
+        double sideHeight = windowHeight - margin * 2 - 40 - margin; // Full height minus margins and top panel
+
+        // Left content panel
+        var leftPanel = new Panel
         {
-            Bounds = new RECT(20, 80, 320, 380),
             BackgroundColor = new Color(40, 40, 50)
         };
-        mainPanel.AddChild(nestedPanel1);
+        leftPanel.SetStackLayout(LayoutDirection.Vertical, margin);
+        leftPanel.LayoutProperties.Width = LayoutSize.Fixed(sideWidth);
+        leftPanel.LayoutProperties.Height = LayoutSize.Fixed(sideHeight);
+        leftPanel.LayoutProperties.Margin = new Thickness(0, margin * 2, margin/2, 0);
+        mainPanel.AddChild(leftPanel);
 
-        var nestedPanel2 = new Panel
+        // Right content panel
+        var rightPanel = new Panel
         {
-            Bounds = new RECT(360, 80, 320, 380),
             BackgroundColor = new Color(40, 40, 50)
         };
-        mainPanel.AddChild(nestedPanel2);
+        rightPanel.SetStackLayout(LayoutDirection.Vertical, margin);
+        rightPanel.LayoutProperties.Width = LayoutSize.Fixed(sideWidth);
+        rightPanel.LayoutProperties.Height = LayoutSize.Fixed(sideHeight);
+        rightPanel.LayoutProperties.Margin = new Thickness(margin/2, margin * 2, 0, 0);
+        mainPanel.AddChild(rightPanel);
 
-        // Add the animation panel
+        // Animation panel - use percentages
         var animationPanel = new AnimatedPanel
         {
-            Bounds = new RECT { X = 0, Y = 20, Width = 320, Height = 300 },
             BackgroundColor = new Color(20, 20, 30)
         };
-        nestedPanel2.AddChild(animationPanel);
+        animationPanel.LayoutProperties.Width = LayoutSize.Percentage(95);
+        animationPanel.LayoutProperties.Height = LayoutSize.Percentage(85);
+        animationPanel.LayoutProperties.Margin = new Thickness(10);
+        rightPanel.AddChild(animationPanel);
+
+        // Control buttons panel - update to use LayoutProperties
+        var controlPanel = new Panel();
+        controlPanel.SetStackLayout(LayoutDirection.Vertical, 5);
+        controlPanel.LayoutProperties.Width = LayoutSize.Fixed(sideWidth - margin * 2);
+        controlPanel.LayoutProperties.Height = LayoutSize.Fixed(sideHeight - margin * 2);
+        controlPanel.LayoutProperties.Margin = new Thickness(margin);
+        leftPanel.AddChild(controlPanel);
         
-        // Add some buttons to the nested panels
-        for (int i = 0; i < 3; i++)
+        // Control buttons
+        string[] controlButtonText = { "Reset Animation", "Randomize Colors", "Toggle Speed" };
+        Action[] buttonActions =
         {
-            string buttonText;
-            Action buttonAction;
+            () => animationPanel.ResetAnimation(),
+            () => animationPanel.RandomizeColors(),
+            () => animationPanel.ToggleSpeed()
+        };
 
-            switch (i)
-            {
-                case 0:
-                    buttonText = "Reset Animation";
-                    buttonAction = () => animationPanel.ResetAnimation();
-                    break;
-                case 1:
-                    buttonText = "Randomize Colors";
-                    buttonAction = () => animationPanel.RandomizeColors();
-                    break;
-                case 2:
-                    buttonText = "Toggle Speed";
-                    buttonAction = () => animationPanel.ToggleSpeed();
-                    break;
-                default:
-                    throw new InvalidOperationException("Invalid button index");
-            }
-
+        for (int i = 0; i < controlButtonText.Length; i++)
+        {
             var button = new Button(
-                bounds: new RECT(
-                    20,
-                    20 + (buttonHeight + buttonSpacing) * i,
-                    buttonWidth,
-                    buttonHeight
-                ),
-                text: buttonText,
+                new RECT(0, 0, 0, 35),
+                text: controlButtonText[i],
                 textColor: buttonTextColor,
                 backgroundColor: buttonBgColor,
                 hoverColor: buttonHoverColor,
@@ -128,37 +148,53 @@ class Program
                 borderHoverColor: buttonBorderHoverColor
             );
 
-            button.OnClick += buttonAction;
-            nestedPanel1.AddChild(button);
+            button.LayoutProperties.Height = LayoutSize.Fixed(35);
+            button.LayoutProperties.Width = LayoutSize.Star(1);  // Use Star sizing
+            button.LayoutProperties.HorizontalAlignment = HorizontalAlignment.Stretch;
+            button.LayoutProperties.VerticalAlignment = VerticalAlignment.Top;
+            button.LayoutProperties.Margin = new Thickness(0, 0, 0, 5);
+
+            int index = i;
+            button.OnClick += buttonActions[index];
+            controlPanel.Children.Add(button);
         }
 
-
-        // Add some buttons at the bottom of the main panel
-        var bottomButton1 = new Button(
-            bounds: new RECT(20, 480 - buttonHeight, 200, buttonHeight),
-            text: "Test Bounds",
-            textColor: buttonTextColor,
-            backgroundColor: buttonBgColor,
-            hoverColor: buttonHoverColor,
+        // Bottom test buttons - update to use LayoutProperties
+        var testBoundsButton = new Button(
+            new RECT(0, 0, 0, 35),
+            "Test Bounds",
+            buttonTextColor,
+            buttonBgColor,
+            buttonHoverColor,
             pressedColor: buttonPressedColor,
             borderColor: buttonBorderColor,
             borderHoverColor: buttonBorderHoverColor
         );
-        bottomButton1.OnClick += () => Console.WriteLine("Bounds Test!");
-        mainPanel.AddChild(bottomButton1);
+        testBoundsButton.LayoutProperties.Width = LayoutSize.Fixed(sideWidth - margin * 2);
+        testBoundsButton.LayoutProperties.Height = LayoutSize.Fixed(35);
+        testBoundsButton.LayoutProperties.VerticalAlignment = VerticalAlignment.Bottom;
+        testBoundsButton.LayoutProperties.Margin = new Thickness(margin, 0, margin, margin);
+        leftPanel.AddChild(testBoundsButton);
 
-        var bottomButton2 = new Button(
-            bounds: new RECT(480, 480 - buttonHeight, 200, buttonHeight),
-            text: "Test Rendering",
-            textColor: buttonTextColor,
-            backgroundColor: buttonBgColor,
-            hoverColor: buttonHoverColor,
+        var testRenderingButton = new Button(
+            new RECT(0, 0, 0, 35),
+            "Test Rendering",
+            buttonTextColor,
+            buttonBgColor,
+            buttonHoverColor,
             pressedColor: buttonPressedColor,
             borderColor: buttonBorderColor,
             borderHoverColor: buttonBorderHoverColor
         );
-        bottomButton2.OnClick += () => Console.WriteLine("Render Test!");
-        mainPanel.AddChild(bottomButton2);
+        testRenderingButton.LayoutProperties.Width = LayoutSize.Fixed(sideWidth - margin * 2);
+        testRenderingButton.LayoutProperties.Height = LayoutSize.Fixed(35);
+        testRenderingButton.LayoutProperties.VerticalAlignment = VerticalAlignment.Bottom;
+        testRenderingButton.LayoutProperties.Margin = new Thickness(margin, 0, margin, margin);
+        rightPanel.AddChild(testRenderingButton);
+
+        // Set stack layout for left and right panels to properly arrange their children
+        leftPanel.SetStackLayout(LayoutDirection.Vertical, margin);
+        rightPanel.SetStackLayout(LayoutDirection.Vertical, margin);
     }
 }
 
@@ -166,21 +202,21 @@ public class AnimatedPanel : Panel
 {
     private double xPos = 0;
     private int xDirection = 1;
-    private Color ballColor = new Color(255, 165, 0);
-    private Color lineColor = new Color(0, 255, 0);
+    private Color ballColor = new Color(255, 165, 0);  // Orange
+    private Color lineColor = new Color(0, 255, 0);    // Green
     private int speed = 2;
 
     public override void CollectRenderCommands(RenderQueue queue)
     {
-        // Collect panel's base commands
-        base.CollectRenderCommands(queue);
+        base.CollectRenderCommands(queue);  // Draw panel background first
 
         var bounds = GetAbsoluteBounds();
+        Console.WriteLine($"AnimatedPanel bounds: {bounds.X},{bounds.Y} {bounds.Width}x{bounds.Height}");
 
-        // Add border commands
+        // Draw border
         queue.Enqueue(new DrawRectCommand(1, bounds, new Color(100, 100, 100)));
 
-        // Add cross pattern commands
+        // Draw cross pattern
         queue.Enqueue(new DrawLineCommand(2,
             new POINT(bounds.X, bounds.Y),
             new POINT(bounds.X + bounds.Width, bounds.Y + bounds.Height),
@@ -191,23 +227,24 @@ public class AnimatedPanel : Panel
             new POINT(bounds.X, bounds.Y + bounds.Height),
             lineColor));
 
-        // Add bouncing ball render command
-        double ballSize = 40;
+        // Draw bouncing ball
+        double ballSize = Math.Min(40, Math.Min(bounds.Width, bounds.Height) * 0.1);  // Scale with panel size
         double ballY = bounds.Y + (bounds.Height - ballSize) / 2;
         queue.Enqueue(new FillRectCommand(3,
-            new RECT(bounds.X + (int)xPos, (int)ballY, (int)ballSize, (int)ballSize),
+            new RECT(bounds.X + xPos, ballY, ballSize, ballSize),
             ballColor));
 
-        // Update ball position for the next frame
+        // Update ball position for next frame
         UpdateBallPosition(bounds.Width, ballSize);
     }
 
-    private void UpdateBallPosition(double panelWidth, double ballSize)
+    private void UpdateBallPosition(double width, double ballSize)
     {
         xPos += speed * xDirection;
-        if (xPos >= panelWidth - ballSize || xPos <= 0)
+        if (xPos >= width - ballSize || xPos <= 0)
         {
             xDirection *= -1;
+            xPos = Math.Clamp(xPos, 0, width - ballSize); // Enforce bounds
         }
     }
 
@@ -221,15 +258,15 @@ public class AnimatedPanel : Panel
     public void RandomizeColors()
     {
         ballColor = new Color(
-            (byte)System.Random.Shared.Next(128, 255),
-            (byte)System.Random.Shared.Next(128, 255),
-            (byte)System.Random.Shared.Next(128, 255)
+            (byte)Random.Shared.Next(128, 255),
+            (byte)Random.Shared.Next(128, 255),
+            (byte)Random.Shared.Next(128, 255)
         );
 
         lineColor = new Color(
-            (byte)System.Random.Shared.Next(128, 255),
-            (byte)System.Random.Shared.Next(128, 255),
-            (byte)System.Random.Shared.Next(128, 255)
+            (byte)Random.Shared.Next(128, 255),
+            (byte)Random.Shared.Next(128, 255),
+            (byte)Random.Shared.Next(128, 255)
         );
     }
 
